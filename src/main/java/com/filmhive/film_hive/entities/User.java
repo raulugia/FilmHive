@@ -3,6 +3,10 @@ package com.filmhive.film_hive.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 @Entity
 @Table(name ="user")
 public class User {
@@ -45,6 +49,12 @@ public class User {
             message = "Password must contain at least one uppercase letter, one lowercase letter, and one number"
     )
     private String password;
+
+    @ManyToMany(mappedBy = "users")
+    private List<Film> favouriteFilms = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch=FetchType.LAZY, cascade={CascadeType.REMOVE})
+    List<Review> reviews = new ArrayList<>();
 
     public User(){
 

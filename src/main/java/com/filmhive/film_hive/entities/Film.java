@@ -52,6 +52,14 @@ public class Film {
     )
     private Set<Genre> genres;
 
+    @ManyToMany(mappedBy = "favouriteFilms")
+    @JoinTable(
+            name = "film_user",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> users;
+
     public Film(){
 
     }
@@ -136,5 +144,13 @@ public class Film {
 
     public void setGenres(Set<Genre> genres) {
         this.genres = genres;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }
