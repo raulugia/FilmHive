@@ -6,8 +6,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
+@Entity
+@Table(name = "film")
 public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,21 +48,25 @@ public class Film {
     @NotNull(message = "Revenue is required")
     private double revenue;
 
-    @ManyToMany(mappedBy = "films")
+    @ManyToMany
     @JoinTable(
             name = "film_genres",
-            joinColumns = @JoinColumn(name="film_id"),
+            joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
-    private Set<Genre> genres;
+    private List<Genre> genres = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "favouriteFilms")
+
+    @ManyToMany()
     @JoinTable(
             name = "film_user",
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<User> users;
+    private List<User> users;
+
+    @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Review> reviews = new ArrayList<>();
 
     public Film(){
 
@@ -138,19 +146,44 @@ public class Film {
         this.revenue = revenue;
     }
 
-    public Set<Genre> getGenres() {
+    public List<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenres(Set<Genre> genres) {
+    public void setGenres(List<Genre> genres) {
         this.genres = genres;
     }
 
-    public Set<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
-    public void setUsers(Set<User> users) {
+    public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    @Override
+    public String toString() {
+        return "Film{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", releaseDate=" + releaseDate +
+                ", duration=" + duration +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", overview='" + overview + '\'' +
+                ", budget=" + budget +
+                ", revenue=" + revenue +
+                ", genres=" + genres +
+                ", users=" + users +
+                ", reviews=" + reviews +
+                '}';
     }
 }

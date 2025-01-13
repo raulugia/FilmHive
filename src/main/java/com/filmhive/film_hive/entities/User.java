@@ -53,7 +53,7 @@ public class User {
     @ManyToMany(mappedBy = "users")
     private List<Film> favouriteFilms = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", fetch=FetchType.LAZY, cascade={CascadeType.REMOVE})
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch=FetchType.LAZY)
     List<Review> reviews = new ArrayList<>();
 
     public User(){
@@ -116,6 +116,22 @@ public class User {
         this.password = password;
     }
 
+    public List<Film> getFavouriteFilms() {
+        return favouriteFilms;
+    }
+
+    public void setFavouriteFilms(List<Film> favouriteFilms) {
+        this.favouriteFilms = favouriteFilms;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -125,6 +141,8 @@ public class User {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", favouriteFilms=" + favouriteFilms +
+                ", reviews=" + reviews +
                 '}';
     }
 }

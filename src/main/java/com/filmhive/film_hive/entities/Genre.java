@@ -3,6 +3,8 @@ package com.filmhive.film_hive.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,7 +21,7 @@ public class Genre {
     private GenreType genreName;
 
     @ManyToMany(mappedBy = "genres")
-    private Set<Film> films;
+    private List<Film> films = new ArrayList<>();
 
     public Genre(){
 
@@ -45,11 +47,20 @@ public class Genre {
         this.genreName = genreName;
     }
 
-    public Set<Film> getFilms() {
+    public List<Film> getFilms() {
         return films;
     }
 
-    public void setFilms(Set<Film> films) {
+    public void setFilms(List<Film> films) {
         this.films = films;
+    }
+
+    @Override
+    public String toString() {
+        return "Genre{" +
+                "id=" + id +
+                ", genreName=" + genreName +
+                ", films=" + films +
+                '}';
     }
 }

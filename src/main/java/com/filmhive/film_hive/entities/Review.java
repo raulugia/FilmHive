@@ -7,6 +7,8 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "review")
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,14 +36,19 @@ public class Review {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne()
+    @JoinColumn(name = "film_id")
+    private Film film;
+
     public Review(){
 
     }
 
-    public Review(String content, int rating, User user){
+    public Review(String content, int rating, User user, Film film){
         this.content = content;
         this.rating = rating;
         this.user = user;
+        this.film = film;
     }
 
     @PrePersist
@@ -87,11 +94,32 @@ public class Review {
         this.rating = rating;
     }
 
+    public Film getFilm() {
+        return film;
+    }
+
+    public void setFilm(Film film) {
+        this.film = film;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Review{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", rating=" + rating +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", user=" + user +
+                ", film=" + film +
+                '}';
     }
 }
